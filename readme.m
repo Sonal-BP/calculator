@@ -6,7 +6,7 @@ pipeline{
     stages{
         stage("checkoutfromgit"){
             steps{
-                git url:'https://github.com/Sonal-BP/restful-angularjs-java.git'
+                git url:'https://github.com/Sonal-BP/calculator.git'
             }
         }
         stage("codecompile"){
