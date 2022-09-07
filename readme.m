@@ -1,25 +1,39 @@
-pipeline {
-	agent any
-	tools {
-    	maven 'my_mvn'
-	}
-	stages {
-    	stage("Checkout") {   
-        	steps {               	 
-            	git url: 'https://github.com/akshu20791/calculator'          	 
-           	 
-        	}    
-    	}
-    	stage('Build') {
-        	steps {
-        	bat "mvn compile"  	 
-        	}
-    	}
-   	 
-    	stage("Unit test") {          	 
-        	steps {  	 
-            	bat "mvn test"          	 
-       	}
-}
-}
+pipeline{
+    agent any
+    tools{
+        maven"mymaven"
+    }
+    stages{
+        stage("checkoutfromgit"){
+            steps{
+                git url:'https://github.com/Sonal-BP/restful-angularjs-java.git'
+            }
+        }
+        stage("codecompile"){
+            steps{
+               bat "mvn compile"
+            }
+        }
+        stage("build"){
+            
+            steps{
+                bat "mvn clean package"
+                echo "Build stage"
+                stash 'source'
+            }
+        }
+        
+        stage("deploy")
+        {
+            agent{
+                label 'test'
+            }
+            steps{
+                unstash 'source'
+                echo "deploy stage"
+                
+            }
+        }
+        
+    }
 }
